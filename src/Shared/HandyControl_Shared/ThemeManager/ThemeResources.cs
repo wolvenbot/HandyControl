@@ -13,7 +13,6 @@ namespace HandyControl.Controls
 
         private ResourceDictionary _lightResources;
         private ResourceDictionary _darkResources;
-        private ResourceDictionary _violetResources;
 
         private bool _canBeAccessedAcrossThreads;
 
@@ -126,17 +125,12 @@ namespace HandyControl.Controls
                     EnsureDarkResources();
                     updateTo(_darkResources);
                     break;
-                case ApplicationTheme.Violet:
-                    EnsureVioletResources();
-                    updateTo(_violetResources);
-                    break;
             }
 
             void updateTo(ResourceDictionary themeDictionary)
             {
                 MergedDictionaries.RemoveIfNotNull(_lightResources);
                 MergedDictionaries.RemoveIfNotNull(_darkResources);
-                MergedDictionaries.RemoveIfNotNull(_violetResources);
                 MergedDictionaries.Insert(1, themeDictionary);
             }
         }
@@ -179,11 +173,9 @@ namespace HandyControl.Controls
                 {
                     EnsureLightResources();
                     EnsureDarkResources();
-                    EnsureVioletResources();
 
                     _lightResources.SealValues();
                     _darkResources.SealValues();
-                    _violetResources.SealValues();
                 }
             }
 
@@ -209,7 +201,6 @@ namespace HandyControl.Controls
                 int count = 0;
                 if (IsMerged(_lightResources)) { count++; };
                 if (IsMerged(_darkResources)) { count++; };
-                if (IsMerged(_violetResources)) { count++; };
                 return count;
             }
         }
@@ -223,21 +214,12 @@ namespace HandyControl.Controls
                 EnsureLightResources();
                 MergedDictionaries.InsertOrReplace(targetIndex, _lightResources);
                 MergedDictionaries.RemoveIfNotNull(_darkResources);
-                MergedDictionaries.RemoveIfNotNull(_violetResources);
             }
             else if (theme == ApplicationTheme.Dark)
             {
                 EnsureDarkResources();
                 MergedDictionaries.InsertOrReplace(targetIndex, _darkResources);
                 MergedDictionaries.RemoveIfNotNull(_lightResources);
-                MergedDictionaries.RemoveIfNotNull(_violetResources);
-            }
-            else if (theme == ApplicationTheme.Violet)
-            {
-                EnsureVioletResources();
-                MergedDictionaries.InsertOrReplace(targetIndex, _violetResources);
-                MergedDictionaries.RemoveIfNotNull(_lightResources);
-                MergedDictionaries.RemoveIfNotNull(_darkResources);
             }
             else
             {
@@ -255,7 +237,6 @@ namespace HandyControl.Controls
             {
                 EnsureLightResources();
                 target.MergedDictionaries.RemoveIfNotNull(_darkResources);
-                target.MergedDictionaries.RemoveIfNotNull(_violetResources);
                 target.MergedDictionaries.InsertIfNotExists(0, _lightResources);
                 mergedAppThemeDictionary = _lightResources;
             }
@@ -263,23 +244,13 @@ namespace HandyControl.Controls
             {
                 EnsureDarkResources();
                 target.MergedDictionaries.RemoveIfNotNull(_lightResources);
-                target.MergedDictionaries.RemoveIfNotNull(_violetResources);
                 target.MergedDictionaries.InsertIfNotExists(0, _darkResources);
                 mergedAppThemeDictionary = _darkResources;
-            }
-            else if (theme == ElementTheme.Violet)
-            {
-                EnsureVioletResources();
-                target.MergedDictionaries.RemoveIfNotNull(_lightResources);
-                target.MergedDictionaries.RemoveIfNotNull(_darkResources);
-                target.MergedDictionaries.InsertIfNotExists(0, _violetResources);
-                mergedAppThemeDictionary = _violetResources;
             }
             else // Default
             {
                 target.MergedDictionaries.RemoveIfNotNull(_lightResources);
                 target.MergedDictionaries.RemoveIfNotNull(_darkResources);
-                target.MergedDictionaries.RemoveIfNotNull(_violetResources);
             }
 
             if (target is ResourceDictionaryEx etr)
@@ -298,9 +269,6 @@ namespace HandyControl.Controls
                 case HandyControl.Tools.ThemeManager.DarkKey:
                     EnsureDarkResources();
                     return _darkResources;
-                case HandyControl.Tools.ThemeManager.VioletKey:
-                    EnsureVioletResources();
-                    return _violetResources;
                 default:
                     throw new ArgumentException();
             }
@@ -312,7 +280,6 @@ namespace HandyControl.Controls
             {
                 HandyControl.Tools.ThemeManager.LightKey => _lightResources,
                 HandyControl.Tools.ThemeManager.DarkKey => _darkResources,
-                HandyControl.Tools.ThemeManager.VioletKey => _violetResources,
                 _ => null,
             };
         }
@@ -330,14 +297,6 @@ namespace HandyControl.Controls
             if (_darkResources == null)
             {
                 _darkResources = InitializeThemeDictionary(HandyControl.Tools.ThemeManager.DarkKey);
-            }
-        }
-
-        private void EnsureVioletResources()
-        {
-            if (_violetResources == null)
-            {
-                _violetResources = InitializeThemeDictionary(HandyControl.Tools.ThemeManager.VioletKey);
             }
         }
 

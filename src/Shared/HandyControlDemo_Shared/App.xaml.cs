@@ -66,9 +66,9 @@ namespace HandyControlDemo
                 GlobalData.Init();
                 ConfigHelper.Instance.SetLang(GlobalData.Config.Lang);
 
-                if (GlobalData.Config.Skin != ApplicationTheme.Light)
+                if (GlobalData.Config.Theme != ApplicationTheme.Light)
                 {
-                    UpdateSkin(GlobalData.Config.Skin);
+                    UpdateSkin(GlobalData.Config.Theme);
                 }
 
                 ConfigHelper.Instance.SetWindowDefaultStyle();
@@ -92,9 +92,6 @@ namespace HandyControlDemo
         {
             ThemeManager themeManager = ThemeManager.Current;
             themeManager.ApplicationTheme = theme;
-
-            if (theme == ApplicationTheme.Violet)
-                theme = ApplicationTheme.Light;
 
             var demoResources = new ResourceDictionary
             {

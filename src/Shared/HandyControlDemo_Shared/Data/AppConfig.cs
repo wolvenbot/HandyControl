@@ -10,6 +10,6 @@ namespace HandyControlDemo.Data
 
         public string Lang { get; set; } = "zh-cn";
 
-        public ApplicationTheme Skin { get; set; } = ApplicationTheme.Dark;
+        public ApplicationTheme Theme { get; set; } = ApplicationTheme.Dark;
     }
 }

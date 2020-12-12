@@ -39,8 +39,8 @@ namespace HandyControlDemo.UserControl
             if (e.OriginalSource is Button button && button.Tag is ApplicationTheme tag)
             {
                 PopupConfig.IsOpen = false;
-                if (tag.Equals(GlobalData.Config.Skin)) return;
-                GlobalData.Config.Skin = tag;
+                if (tag.Equals(GlobalData.Config.Theme)) return;
+                GlobalData.Config.Theme = tag;
                 GlobalData.Save();
                 ((App) Application.Current).UpdateSkin(tag);
             }

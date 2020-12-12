@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Media;
 using HandyControl.Controls;
 using HandyControl.ThemeManager;
 using Window = HandyControl.Controls.Window;
@@ -14,7 +15,6 @@ namespace HandyControl.Tools
     {
         internal const string LightKey = "Light";
         internal const string DarkKey = "Dark";
-        internal const string VioletKey = "Violet";
 
         private static readonly RoutedEventArgs _actualThemeChangedEventArgs;
 
@@ -34,7 +34,6 @@ namespace HandyControl.Tools
             {
                 _ = GetDefaultThemeDictionary(LightKey);
                 _ = GetDefaultThemeDictionary(DarkKey);
-                _ = GetDefaultThemeDictionary(VioletKey);
             }
         }
 
@@ -107,9 +106,6 @@ namespace HandyControl.Tools
                 case HandyControl.Tools.ApplicationTheme.Dark:
                     tm._defaultActualTheme = ElementTheme.Dark;
                     break;
-                case HandyControl.Tools.ApplicationTheme.Violet:
-                    tm._defaultActualTheme = ElementTheme.Violet;
-                    break;
             }
 
             tm._data.ActualApplicationTheme = newValue;
@@ -131,6 +127,30 @@ namespace HandyControl.Tools
             }
         }
 
+        #endregion
+
+        #region
+        public static Brush GetAccentColor(DependencyObject d)
+        {
+            return (Brush) d.GetValue(AccentColorProperty);
+        }
+
+        public static void SetAccentColor(DependencyObject d, Brush value)
+        {
+            d.SetValue(AccentColorProperty, value);
+        }
+
+        public static readonly DependencyProperty AccentColorProperty =
+            DependencyProperty.RegisterAttached("AccentColor", typeof(Brush), typeof(ThemeManager), new FrameworkPropertyMetadata(default,
+                OnAccenctChanged));
+
+        private static void OnAccenctChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var ctl = (FrameworkElement) d;
+            ctl.Resources["PrimaryBrush"] = e.NewValue;
+            ctl.Resources["TitleColor"] = e.NewValue;
+            ctl.Resources["SecondaryTitleColor"] = e.NewValue;
+        }
         #endregion
 
         #region RequestedTheme
@@ -418,8 +438,6 @@ namespace HandyControl.Tools
                     return LightKey;
                 case ElementTheme.Dark:
                     return DarkKey;
-                case ElementTheme.Violet:
-                    return VioletKey;
             }
 
             throw new InvalidOperationException();
@@ -612,11 +630,7 @@ namespace HandyControl.Tools
         /// <summary>
         /// Use the **Dark** default theme.
         /// </summary>
-        Dark = 1,
-        /// <summary>
-        /// Use the **Dark** default theme.
-        /// </summary>
-        Violet = 2
+        Dark = 1
     }
 
     /// <summary>
@@ -636,10 +650,5 @@ namespace HandyControl.Tools
         /// Use the **Dark** default theme.
         /// </summary>
         Dark = 2,
-        /// <summary>
-        /// Use the **Violet** default theme.
-        /// </summary>
-        Violet = 3
-
     }
 }

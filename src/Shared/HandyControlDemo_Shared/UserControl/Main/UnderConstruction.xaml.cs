@@ -20,11 +20,5 @@ namespace HandyControlDemo.UserControl
             ThemeManager themeManager = ThemeManager.Current;
             themeManager.ApplicationTheme = ApplicationTheme.Dark;
         }
-
-        private void Button_Violet(object sender, RoutedEventArgs e)
-        {
-            ThemeManager themeManager = ThemeManager.Current;
-            themeManager.ApplicationTheme = ApplicationTheme.Violet;
-        }
     }
 }
