@@ -135,7 +135,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\ThemeManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\ThemeResources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\TypedEventHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\XamlControlsResources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\Theme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Themes\SharedResourceDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Converter\BorderCircularClipConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Converter\ColLayoutConverter.cs" />

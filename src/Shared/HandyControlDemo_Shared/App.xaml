@@ -21,7 +21,7 @@
                 </ResourceDictionary>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-                        <hc:XamlControlsResources/>
+                        <hc:Theme/>
                         <ResourceDictionary Source="Resources/Themes/Theme.xaml"/>
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
