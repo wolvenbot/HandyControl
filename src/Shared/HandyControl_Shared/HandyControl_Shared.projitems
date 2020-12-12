@@ -127,7 +127,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\Markup\DynamicColorExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\Markup\StaticColorExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\Markup\StaticResourceExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\Markup\ThemeResourceExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\Markup\ThemeResourceHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\MergedDictionariesHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThemeManager\PackUriHelper.cs" />
