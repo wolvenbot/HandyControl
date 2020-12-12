@@ -9,6 +9,11 @@ using HandyControl.Controls;
 using HandyControl.ThemeManager;
 using Window = HandyControl.Controls.Window;
 
+namespace System.Runtime.CompilerServices
+{
+    class CallerMemberNameAttribute : Attribute
+    { }
+}
 namespace HandyControl.Tools
 {
     public class ThemeManager : DependencyObject
