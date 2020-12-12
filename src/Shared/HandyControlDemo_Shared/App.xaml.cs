@@ -8,7 +8,7 @@ using System.Runtime;
 #endif
 using System.Threading;
 using System.Windows;
-using HandyControl.Data;
+using HandyControl.ThemeManager;
 using HandyControl.Tools;
 using HandyControlDemo.Data;
 using HandyControlDemo.Tools;
@@ -66,7 +66,7 @@ namespace HandyControlDemo
                 GlobalData.Init();
                 ConfigHelper.Instance.SetLang(GlobalData.Config.Lang);
 
-                if (GlobalData.Config.Skin != SkinType.Default)
+                if (GlobalData.Config.Skin != ApplicationTheme.Light)
                 {
                     UpdateSkin(GlobalData.Config.Skin);
                 }
@@ -88,25 +88,20 @@ namespace HandyControlDemo
             GlobalData.Save();
         }
 
-        internal void UpdateSkin(SkinType skin)
+        internal void UpdateSkin(ApplicationTheme theme)
         {
-            var skins0 = Resources.MergedDictionaries[0];
-            skins0.MergedDictionaries.Clear();
-            skins0.MergedDictionaries.Add(ResourceHelper.GetSkin(skin));
-            skins0.MergedDictionaries.Add(ResourceHelper.GetSkin(typeof(App).Assembly, "Resources/Themes", skin));
+            ThemeManager themeManager = ThemeManager.Current;
+            themeManager.ApplicationTheme = theme;
 
-            var skins1 = Resources.MergedDictionaries[1];
-            skins1.MergedDictionaries.Clear();
-            skins1.MergedDictionaries.Add(new ResourceDictionary
-            {
-                Source = new Uri("pack://application:,,,/HandyControl;component/Themes/Theme.xaml")
-            });
-            skins1.MergedDictionaries.Add(new ResourceDictionary
-            {
-                Source = new Uri("pack://application:,,,/HandyControlDemo;component/Resources/Themes/Theme.xaml")
-            });
+            if (theme == ApplicationTheme.Violet)
+                theme = ApplicationTheme.Light;
 
-            Current.MainWindow?.OnApplyTemplate();
+            var demoResources = new ResourceDictionary
+            {
+                Source = PackUriHelper.GetAbsoluteUri("HandyControlDemo", $"/Resources/Themes/Basic/Colors/{theme.ToString()}.xaml")
+            };
+            
+            Resources.MergedDictionaries[0].MergedDictionaries.InsertOrReplace(1, demoResources);
         }
 
         private void UpdateRegistry()

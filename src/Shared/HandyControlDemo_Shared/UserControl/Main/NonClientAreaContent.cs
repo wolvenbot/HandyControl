@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight.Messaging;
-using HandyControl.Data;
 using HandyControl.Tools;
 using HandyControlDemo.Data;
 using HandyControlDemo.Properties.Langs;
@@ -37,7 +36,7 @@ namespace HandyControlDemo.UserControl
 
         private void ButtonSkins_OnClick(object sender, RoutedEventArgs e)
         {
-            if (e.OriginalSource is Button button && button.Tag is SkinType tag)
+            if (e.OriginalSource is Button button && button.Tag is ApplicationTheme tag)
             {
                 PopupConfig.IsOpen = false;
                 if (tag.Equals(GlobalData.Config.Skin)) return;
