@@ -46,6 +46,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\Poptip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\Watermark.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Panel\FlexPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Panel\SimpleStackPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Panel\UniformSpacingPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PropertyGrid\Editors\ImagePropertyEditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PropertyGrid\Editors\VerticalAlignmentPropertyEditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PropertyGrid\Editors\HorizontalAlignmentPropertyEditor.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Text\SimpleText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Window\GlowWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\DateTimeRangeComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Enum\VisualWrapping.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\Flex\FlexContentJustify.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\Flex\FlexContentAlignment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\Flex\FlexItemAlignment.cs" />
@@ -381,6 +384,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Helper\SecurityHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Helper\SingleOpenHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Helper\TokenizerHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\Helper\TouchDragMoveWindowHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Helper\ValidateHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Helper\VisualHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Helper\WindowHelper.cs" />
@@ -411,6 +415,7 @@
     <None Include="$(MSBuildThisFileDirectory)Themes\Basic\Behaviors.xaml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)Themes\XamlCombine.exe" />
     <Page Include="$(MSBuildThisFileDirectory)Themes\Basic\Colors\Light.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -779,9 +784,6 @@
     <None Include="$(MSBuildThisFileDirectory)Themes\Styles\GroupBox.xaml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="$(MSBuildThisFileDirectory)Themes\Styles\Image.xaml">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="$(MSBuildThisFileDirectory)Themes\Styles\ImageViewer.xaml">
       <SubType>Designer</SubType>
     </None>
@@ -993,5 +995,9 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icons\HandyControl.Controls.Watermark.icon.bmp" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icons\HandyControl.Controls.WatermarkTextBox.icon.bmp" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icons\HandyControl.Controls.WaveProgressBar.icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Themes\Theme_40.txt" />
+    <None Include="$(MSBuildThisFileDirectory)Themes\Theme_GE45.txt" />
   </ItemGroup>
 </Project>

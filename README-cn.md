@@ -131,6 +131,10 @@ Step 4: Enjoy coding
 
 ## Latest examples
 
+### UniformSpacingPanel
+
+![UniformSpacingPanel](https://gitee.com/handyorg/HandyOrgResource/raw/master/HandyControl/Resources/UniformSpacingPanel.png)
+
 ### FlexPanel
 
 ![FlexPanel](https://gitee.com/handyorg/HandyOrgResource/raw/master/HandyControl/Resources/FlexPanel.gif)
@@ -147,11 +151,11 @@ Step 4: Enjoy coding
 
 ![PropertyGrid](https://gitee.com/handyorg/HandyOrgResource/raw/master/HandyControl/Resources/PropertyGrid.png)
 
+## History publication
+
 ### Screenshot
 
 ![Screenshot](https://gitee.com/handyorg/HandyOrgResource/raw/master/HandyControl/Resources/Screenshot.png)
-
-## History publication
 
 ### GooeyEffect
 

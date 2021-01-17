@@ -6,6 +6,11 @@
     <TargetFrameworks>netcoreapp3.0;netcoreapp3.1;net40;net45;net462;net47;net48;net5.0-windows</TargetFrameworks>
     <NoWarn>MSB3026;MSB3061</NoWarn>
     <MSBuildWarningsAsMessages>NETSDK1138</MSBuildWarningsAsMessages>
+    <Version>3.1.0.0</Version>
+    <Copyright>Copyright © HandyOrg 2018-2021</Copyright>
+    <RepositoryUrl>https://github.com/HandyOrg/HandyControl</RepositoryUrl>
+    <AssemblyVersion>3.1.0.0</AssemblyVersion>
+    <FileVersion>3.1.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Resource Include="..\..\Shared\HandyControlDemo_Shared\Window\AboutWindow.xaml">
@@ -112,6 +117,9 @@
     </Resource>
     <Resource Include="..\..\Shared\HandyControlDemo_Shared\UserControl\Controls\DrawerDemoCtl.xaml">
       <Link>UserControl\Controls\DrawerDemoCtl.xaml</Link>
+    </Resource>
+    <Resource Include="..\..\Shared\HandyControlDemo_Shared\UserControl\Controls\FlexPanelDemoCtl.xaml">
+      <Link>UserControl\Controls\FlexPanelDemoCtl.xaml</Link>
     </Resource>
     <Resource Include="..\..\Shared\HandyControlDemo_Shared\UserControl\Controls\FlipClockDemoCtl.xaml">
       <Link>UserControl\Controls\FlipClockDemoCtl.xaml</Link>
@@ -244,6 +252,9 @@
     </Resource>
     <Resource Include="..\..\Shared\HandyControlDemo_Shared\UserControl\Controls\TransitioningContentControlDemoCtl.xaml">
       <Link>UserControl\Controls\TransitioningContentControlDemoCtl.xaml</Link>
+    </Resource>
+    <Resource Include="..\..\Shared\HandyControlDemo_Shared\UserControl\Controls\UniformSpacingPanelDemoCtl.xaml">
+      <Link>UserControl\Controls\UniformSpacingPanelDemoCtl.xaml</Link>
     </Resource>
     <Resource Include="..\..\Shared\HandyControlDemo_Shared\UserControl\Controls\WaterfallPanelDemoCtl.xaml">
       <Link>UserControl\Controls\WaterfallPanelDemoCtl.xaml</Link>
@@ -677,6 +688,10 @@
     <Resource Include="..\..\Shared\HandyControlDemo_Shared\UserControl\Controls\TransitioningContentControlDemoCtl.xaml.cs">
       <Link>UserControl\Controls\TransitioningContentControlDemoCtl.xaml.cs</Link>
       <DependentUpon>TransitioningContentControlDemoCtl.xaml</DependentUpon>
+    </Resource>
+    <Resource Include="..\..\Shared\HandyControlDemo_Shared\UserControl\Controls\UniformSpacingPanelDemoCtl.xaml.cs">
+      <Link>UserControl\Controls\UniformSpacingPanelDemoCtl.xaml.cs</Link>
+      <DependentUpon>UniformSpacingPanelDemoCtl.xaml</DependentUpon>
     </Resource>
     <Resource Include="..\..\Shared\HandyControlDemo_Shared\UserControl\Controls\WaterfallPanelDemoCtl.xaml.cs">
       <Link>UserControl\Controls\WaterfallPanelDemoCtl.xaml.cs</Link>

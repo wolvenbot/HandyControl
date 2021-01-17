@@ -383,14 +383,18 @@ namespace HandyControlDemo.Service
             {
                 var titleKey = (string) item.title;
                 var title = titleKey;
-                var list = Convert2DemoItemList(item.demoItemList);
-                infoList.Add(new DemoInfoModel
+                List<DemoItemModel> list = Convert2DemoItemList(item.demoItemList);
+
+                var demoInfoModel = new DemoInfoModel
                 {
                     Key = titleKey,
                     Title = title,
                     DemoItemList = list,
-                    SelectedIndex = (int) item.selectedIndex
-                });
+                    SelectedIndex = (int) item.selectedIndex,
+                    IsGroupEnabled = (bool) item.group
+                };
+
+                infoList.Add(demoInfoModel);
             }
 
             return infoList;
@@ -406,17 +410,39 @@ namespace HandyControlDemo.Service
                 string targetCtlName = item[1];
                 string imageName = item[2];
                 var isNew = !string.IsNullOrEmpty((string) item[3]);
+                var groupName = (string) item[4];
+                if (string.IsNullOrEmpty(groupName))
+                {
+                    groupName = "Misc";
+                }
 
                 resultList.Add(new DemoItemModel
                 {
                     Name = name,
                     TargetCtlName = targetCtlName,
                     ImageName = $"../../Resources/Img/LeftMainContent/{imageName}.png",
-                    IsNew = isNew
+                    IsNew = isNew,
+                    GroupName = groupName
                 });
             }
 
             return resultList;
+        }
+
+        public string GetDemoUrl(DemoInfoModel demoInfo, DemoItemModel demoItem)
+        {
+            var key = demoInfo.Key switch
+            {
+                "Styles" => "native_controls",
+                "Controls" => "extend_controls",
+                "Tools" => "tools",
+                _ => string.Empty
+            };
+
+            var domainName = LangProvider.Culture == null || LangProvider.Culture.Name.ToLower() == "zh-cn"
+                ? "handyorg"
+                : "ghost1372";
+            return $"https://{domainName}.github.io/handycontrol/{key}/{demoItem.Name[0].ToString().ToLower()}{demoItem.Name.Substring(1)}";
         }
     }
 }

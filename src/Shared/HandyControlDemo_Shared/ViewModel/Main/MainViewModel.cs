@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using HandyControl.Controls;
+using HandyControl.Interactivity;
 using HandyControlDemo.Data;
 using HandyControlDemo.Properties.Langs;
 using HandyControlDemo.Service;
@@ -29,61 +30,16 @@ namespace HandyControlDemo.ViewModel
         /// </summary>
         private object _subContent;
 
+        private readonly DataService _dataService;
+
         #endregion
 
         public MainViewModel(DataService dataService)
         {
-            Messenger.Default.Register<object>(this, MessageToken.LoadShowContent, obj =>
-            {
-                if (SubContent is IDisposable disposable)
-                {
-                    disposable.Dispose();
-                }
-                SubContent = obj;
-            }, true);
+            _dataService = dataService;
 
-            Messenger.Default.Register<object>(this, MessageToken.ClearLeftSelected, obj =>
-            {
-                DemoItemCurrent = null;
-                foreach (var item in DemoInfoCollection)
-                {
-                    item.SelectedIndex = -1;
-                }
-            });
-
-            Messenger.Default.Register<object>(this, MessageToken.LangUpdated, obj =>
-            {
-                if (DemoItemCurrent == null) return;
-                ContentTitle = LangProvider.GetLang(DemoItemCurrent.Name);
-            });
-
-            DemoInfoCollection = new ObservableCollection<DemoInfoModel>();
-
-#if NET40
-            Task.Factory.StartNew(() =>
-            {
-                DataList = dataService.GetDemoDataList();
-                foreach (var item in dataService.GetDemoInfo())
-                {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        DemoInfoCollection.Add(item);
-                    }), DispatcherPriority.ApplicationIdle);
-                }
-            });
-#else
-            Task.Run(() =>
-            {
-                DataList = dataService.GetDemoDataList();
-                foreach (var item in dataService.GetDemoInfo())
-                {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        DemoInfoCollection.Add(item);
-                    }), DispatcherPriority.ApplicationIdle);
-                }
-            });
-#endif
+            UpdateMainContent();
+            UpdateLeftContent();
         }
 
         #region 属性
@@ -146,9 +102,65 @@ namespace HandyControlDemo.ViewModel
         public RelayCommand GlobalShortcutWarningCmd => new Lazy<RelayCommand>(() =>
             new RelayCommand(() => Growl.Warning("Global Shortcut Warning"))).Value;
 
+        public RelayCommand OpenDocCmd => new Lazy<RelayCommand>(() =>
+            new RelayCommand(() =>
+            {
+                ControlCommands.OpenLink.Execute(_dataService.GetDemoUrl(DemoInfoCurrent, DemoItemCurrent));
+            })).Value;
+
         #endregion
 
         #region 方法
+
+        private void UpdateMainContent()
+        {
+            Messenger.Default.Register<object>(this, MessageToken.LoadShowContent, obj =>
+            {
+                if (SubContent is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+                SubContent = obj;
+            }, true);
+        }
+
+        private void UpdateLeftContent()
+        {
+            //clear status
+            Messenger.Default.Register<object>(this, MessageToken.ClearLeftSelected, obj =>
+            {
+                DemoItemCurrent = null;
+                foreach (var item in DemoInfoCollection)
+                {
+                    item.SelectedIndex = -1;
+                }
+            });
+
+            Messenger.Default.Register<object>(this, MessageToken.LangUpdated, obj =>
+            {
+                if (DemoItemCurrent == null) return;
+                ContentTitle = LangProvider.GetLang(DemoItemCurrent.Name);
+            });
+
+            //load items
+            DemoInfoCollection = new ObservableCollection<DemoInfoModel>();
+#if NET40
+            Task.Factory.StartNew(() =>
+#else
+            Task.Run(() =>
+#endif
+            {
+                DataList = _dataService.GetDemoDataList();
+
+                foreach (var item in _dataService.GetDemoInfo())
+                {
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        DemoInfoCollection.Add(item);
+                    }), DispatcherPriority.ApplicationIdle);
+                }
+            });
+        }
 
         /// <summary>
         ///     切换例子
