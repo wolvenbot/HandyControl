@@ -93,9 +93,7 @@ namespace HandyControlDemo
 
         internal void UpdateSkin(ApplicationTheme theme)
         {
-            ThemeManager themeManager = ThemeManager.Current;
-            themeManager.ApplicationTheme = theme;
-
+            ThemeManager.Current.ApplicationTheme = theme;
             var demoResources = new ResourceDictionary
             {
                 Source = PackUriHelper.GetAbsoluteUri("HandyControlDemo", $"/Resources/Themes/Basic/Colors/{theme.ToString()}.xaml")

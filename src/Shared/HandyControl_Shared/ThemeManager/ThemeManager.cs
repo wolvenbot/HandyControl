@@ -6,7 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using HandyControl.Controls;
+using HandyControl.Data;
 using HandyControl.ThemeManager;
+using Microsoft.Win32;
 using Window = HandyControl.Controls.Window;
 
 namespace System.Runtime.CompilerServices
@@ -41,12 +43,81 @@ namespace HandyControl.Tools
                 _ = GetDefaultThemeDictionary(DarkKey);
             }
         }
-
         private ThemeManager()
         {
             _data = new Data(this);
+            if (WindowHelper.GetWindowsVersion().Major == 10)
+            {
+                _currenTheme = GetWindowsTheme();
+                _currentAccent = SystemParameters.WindowGlassBrush;
+                SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+            }
+            else
+            {
+                IsSystemDefaultThemeEnabled = false;
+            }
         }
 
+        #region WindowsTheme
+
+        private const string RegistryThemePath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+        private const string RegSysMode = "SystemUsesLightTheme";
+        private ApplicationTheme _currenTheme;
+        private Brush _currentAccent;
+        public  bool IsSystemDefaultThemeEnabled = true;
+        public class WindowsTheme
+        {
+            public Brush AccentBrush { get; internal set; }
+            public ApplicationTheme CurrentTheme { get; internal set; }
+        }
+
+        /// <summary>
+        /// Returns theme used for Windows
+        /// </summary>
+        public static ApplicationTheme GetWindowsTheme()
+        {
+            return GetThemeFromRegistry(RegSysMode);
+        }
+
+        // Reads value by given key in registry and converts to ApplicationTheme
+        private static ApplicationTheme GetThemeFromRegistry(string registryKey)
+        {
+            using var key = Registry.CurrentUser.OpenSubKey(RegistryThemePath);
+            var themeValue = key?.GetValue(registryKey) as int?;
+
+            return themeValue != 0 ? Tools.ApplicationTheme.Light : Tools.ApplicationTheme.Dark;
+        }
+
+        public event EventHandler<FunctionEventArgs<WindowsTheme>> WindowsThemeChanged;
+        protected virtual void OnWindowsThemeChanged(WindowsTheme theme)
+        {
+            EventHandler<FunctionEventArgs<WindowsTheme>> handler = WindowsThemeChanged;
+            handler?.Invoke(this, new FunctionEventArgs<WindowsTheme>(theme));
+        }
+
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            switch (e.Category)
+            {
+                case UserPreferenceCategory.General:
+                    if (IsSystemDefaultThemeEnabled)
+                    {
+                        var changedTheme = GetWindowsTheme();
+                        var changedAccent = SystemParameters.WindowGlassBrush;
+
+                        if ((_currenTheme != changedTheme) || (_currentAccent != changedAccent))
+                        {
+                            _currenTheme = changedTheme;
+                            ApplicationTheme = changedTheme;
+                            SetAccentColor(Application.Current.MainWindow, changedAccent);
+                            OnWindowsThemeChanged(new WindowsTheme() { AccentBrush = changedAccent, CurrentTheme = changedTheme });
+                        }
+                    }
+                    break;
+            }
+        }
+
+        #endregion
         #region ApplicationTheme
 
         /// <summary>
@@ -151,10 +222,12 @@ namespace HandyControl.Tools
 
         private static void OnAccenctChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var ctl = (FrameworkElement) d;
-            ctl.Resources["PrimaryBrush"] = e.NewValue;
-            ctl.Resources["TitleColor"] = e.NewValue;
-            ctl.Resources["SecondaryTitleColor"] = e.NewValue;
+            if (d is FrameworkElement ctl)
+            {
+                ctl.Resources["PrimaryBrush"] = e.NewValue;
+                ctl.Resources["TitleColor"] = e.NewValue;
+                ctl.Resources["SecondaryTitleColor"] = e.NewValue;
+            }
         }
         #endregion
 
