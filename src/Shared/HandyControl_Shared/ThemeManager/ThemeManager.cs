@@ -46,19 +46,12 @@ namespace HandyControl.Tools
         private ThemeManager()
         {
             _data = new Data(this);
-            if (WindowHelper.GetWindowsVersion().Major == 10)
-            {
-                _currenTheme = GetWindowsTheme();
-                _currentAccent = SystemParameters.WindowGlassBrush;
-                SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
-            }
-            else
-            {
-                IsSystemDefaultThemeEnabled = false;
-            }
+            _currenTheme = GetWindowsTheme();
+            _currentAccent = GetAccentBrush();
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }
 
-        #region WindowsTheme
+#region WindowsTheme
 
         private const string RegistryThemePath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
         private const string RegSysMode = "SystemUsesLightTheme";
@@ -88,6 +81,11 @@ namespace HandyControl.Tools
             return themeValue != 0 ? Tools.ApplicationTheme.Light : Tools.ApplicationTheme.Dark;
         }
 
+        private Brush GetAccentBrush()
+        {
+            return new SolidColorBrush(AccentColorSet.ActiveSet["SystemAccent"]);
+        }
+
         public event EventHandler<FunctionEventArgs<WindowsTheme>> WindowsThemeChanged;
         protected virtual void OnWindowsThemeChanged(WindowsTheme theme)
         {
@@ -103,11 +101,11 @@ namespace HandyControl.Tools
                     if (IsSystemDefaultThemeEnabled)
                     {
                         var changedTheme = GetWindowsTheme();
-                        var changedAccent = SystemParameters.WindowGlassBrush;
-
+                        var changedAccent = GetAccentBrush();
                         if ((_currenTheme != changedTheme) || (_currentAccent != changedAccent))
                         {
                             _currenTheme = changedTheme;
+                            _currentAccent = changedAccent;
                             ApplicationTheme = changedTheme;
                             SetAccentColor(Application.Current.MainWindow, changedAccent);
                             OnWindowsThemeChanged(new WindowsTheme() { AccentBrush = changedAccent, CurrentTheme = changedTheme });
@@ -117,8 +115,9 @@ namespace HandyControl.Tools
             }
         }
 
-        #endregion
-        #region ApplicationTheme
+#endregion
+
+#region ApplicationTheme
 
         /// <summary>
         /// Identifies the ApplicationTheme dependency property.
@@ -149,9 +148,9 @@ namespace HandyControl.Tools
             ((ThemeManager)d).UpdateActualApplicationTheme();
         }
 
-        #endregion
+#endregion
 
-        #region ActualApplicationTheme
+#region ActualApplicationTheme
 
         private static readonly DependencyPropertyKey ActualApplicationThemePropertyKey =
             DependencyProperty.RegisterReadOnly(
@@ -203,9 +202,9 @@ namespace HandyControl.Tools
             }
         }
 
-        #endregion
+#endregion
 
-        #region
+#region
         public static Brush GetAccentColor(DependencyObject d)
         {
             return (Brush) d.GetValue(AccentColorProperty);
@@ -229,9 +228,9 @@ namespace HandyControl.Tools
                 ctl.Resources["SecondaryTitleColor"] = e.NewValue;
             }
         }
-        #endregion
+#endregion
 
-        #region RequestedTheme
+#region RequestedTheme
 
         /// <summary>
         /// Gets the UI theme that is used by the UIElement (and its child elements)
@@ -268,7 +267,7 @@ namespace HandyControl.Tools
 
         private static void OnRequestedThemeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var element = (FrameworkElement)d;
+            var element = (FrameworkElement) d;
 
             if (element.IsInitialized)
             {
@@ -304,9 +303,9 @@ namespace HandyControl.Tools
             }
         }
 
-        #endregion
+#endregion
 
-        #region Theme
+#region Theme
 
         private static readonly DependencyProperty ThemeProperty =
             DependencyProperty.RegisterAttached(
@@ -356,9 +355,9 @@ namespace HandyControl.Tools
             }
         }
 
-        #endregion
+#endregion
 
-        #region ActualTheme
+#region ActualTheme
 
         /// <summary>
         /// Gets the UI theme that is currently used by the element, which might be different
@@ -423,9 +422,9 @@ namespace HandyControl.Tools
 
         private ElementTheme _defaultActualTheme = ElementTheme.Light;
 
-        #endregion
+#endregion
 
-        #region ActualThemeChanged
+#region ActualThemeChanged
 
         public static readonly RoutedEvent ActualThemeChangedEvent =
             EventManager.RegisterRoutedEvent(
@@ -449,9 +448,9 @@ namespace HandyControl.Tools
             element.RaiseEvent(_actualThemeChangedEventArgs);
         }
 
-        #endregion
+#endregion
 
-        #region HasThemeResources
+#region HasThemeResources
 
         public static readonly DependencyProperty HasThemeResourcesProperty =
             DependencyProperty.RegisterAttached(
@@ -521,9 +520,9 @@ namespace HandyControl.Tools
             throw new InvalidOperationException();
         }
 
-        #endregion
+#endregion
 
-        #region SubscribedToInitialized
+#region SubscribedToInitialized
 
         private static readonly DependencyProperty SubscribedToInitializedProperty =
             DependencyProperty.RegisterAttached(
@@ -583,7 +582,7 @@ namespace HandyControl.Tools
             }
         }
 
-        #endregion
+#endregion
 
         public static ThemeManager Current { get; } = new ThemeManager();
 
