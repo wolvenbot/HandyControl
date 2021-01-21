@@ -83,7 +83,19 @@ namespace HandyControl.Tools
 
         private Brush GetAccentBrush()
         {
-            return new SolidColorBrush(AccentColorSet.ActiveSet["SystemAccent"]);
+            // Check if OS version is Lower than Windows10
+            if (WindowHelper.GetWindowsVersion().Major < 10)
+            {
+#if NET40
+                return ResourceHelper.GetResource<Brush>("PrimaryBrush");
+#else
+                return SystemParameters.WindowGlassBrush;
+#endif
+            }
+            else
+            {
+                return new SolidColorBrush(AccentColorSet.ActiveSet["SystemAccent"]);
+            }
         }
 
         public event EventHandler<FunctionEventArgs<WindowsTheme>> WindowsThemeChanged;
